@@ -1,0 +1,7 @@
+POST https://puhelinluettelo-backend-p0k8.onrender.com/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jorma Piisinen",
+    "number": "69-123456789"
+}

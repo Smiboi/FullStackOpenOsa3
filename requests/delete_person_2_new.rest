@@ -1,0 +1,2 @@
+DELETE https://puhelinluettelo-backend-p0k8.onrender.com/api/persons/2
+Content-Type: application/json
