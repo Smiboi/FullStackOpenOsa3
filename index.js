@@ -7,7 +7,7 @@ require('dotenv').config()
 const Person = require('./models/person')
 
 morgan.token('person', req => {
-    return JSON.stringify(req.body)
+  return JSON.stringify(req.body)
 })
 
 const errorHandler = (error, request, response, next) => {
@@ -66,16 +66,16 @@ app.post('/api/persons', (request, response, next) => {
   console.log('body.name', body.name)
   console.log('body.number', body.number)
 
-  if (body.name === "" || body.number === "") {
-    return response.status(400).json({ 
-      error: 'name or number missing' 
+  if (body.name === '' || body.number === '') {
+    return response.status(400).json({
+      error: 'name or number missing'
     })// .end()
     // .catch(error => next(error))
   }
 
   if (persons.find(person => person.name === body.name)) {
-    return response.status(400).json({ 
-      error: 'name must be unique' 
+    return response.status(400).json({
+      error: 'name must be unique'
     })// .end()
     // .catch(error => next(error))
   }
@@ -89,7 +89,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -106,7 +106,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -114,16 +114,16 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 // ei toimi vielä tietokannan kanssa
 app.get('/info', (req, res) => {
-  sentence1 = "<p>Phonebook has info for " + String(persons.length) + " people</p>"
+  const sentence1 = '<p>Phonebook has info for ' + String(persons.length) + ' people</p>'
 
-  const weekDays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+  const weekDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   const dateTime = new Date()
   const weekDay = weekDays[dateTime.getDay()]
   const month = months[dateTime.getMonth()]
-  const timeZone = new Date().toString().match(/\((.*)\)/).pop();
+  const timeZone = new Date().toString().match(/\((.*)\)/).pop()
   // console.log('sentence2:', weekDay, month, dateTime.getDate(), dateTime.getFullYear(), dateTime.getHours() + ":" + dateTime.getMinutes() + ":" + dateTime.getSeconds(), "GMT" + (dateTime.getTimezoneOffset() >= 0 ? "-" + (-dateTime.getTimezoneOffset() / 60) : "+" + (-dateTime.getTimezoneOffset() / 60)), "(" + timeZone + ")")
-  sentence2 = "<p>" + weekDay + " " + month + " " + dateTime.getDate() + " " + dateTime.getFullYear() + " " + (dateTime.getHours() < 10 ? "0" : "") + dateTime.getHours() + ":" + (dateTime.getMinutes() < 10 ? "0" : "") + dateTime.getMinutes() + ":" + dateTime.getSeconds() + " " + "GMT" + (dateTime.getTimezoneOffset() >= 0 ? "-" + (-dateTime.getTimezoneOffset() / 60) : "+" + (-dateTime.getTimezoneOffset() / 60)) + " " + "(" + timeZone + ")" + "</p>"
+  const sentence2 = '<p>' + weekDay + ' ' + month + ' ' + dateTime.getDate() + ' ' + dateTime.getFullYear() + ' ' + (dateTime.getHours() < 10 ? '0' : '') + dateTime.getHours() + ':' + (dateTime.getMinutes() < 10 ? '0' : '') + dateTime.getMinutes() + ':' + dateTime.getSeconds() + ' ' + 'GMT' + (dateTime.getTimezoneOffset() >= 0 ? '-' + (-dateTime.getTimezoneOffset() / 60) : '+' + (-dateTime.getTimezoneOffset() / 60)) + ' ' + '(' + timeZone + ')' + '</p>'
 
   res.send(sentence1 + sentence2)
 })
