@@ -141,9 +141,9 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-// ei toimi vielä tietokannan kanssa
-app.get('/info', (req, res) => {
-  const sentence1 = '<p>Phonebook has info for ' + String(persons.length) + ' people</p>'
+app.get('/info', async (req, res) => {
+  const personCount = await Person.countDocuments()
+  const sentence1 = '<p>Phonebook has info for ' + personCount + ' people</p>'
 
   const weekDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
