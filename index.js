@@ -92,6 +92,35 @@ app.post('/api/persons', (request, response, next) => {
     .catch(error => next(error))
 })
 
+// app.put('/api/persons/:id', (request, response, next) => {
+//   const body = request.body
+//   const id = request.params.id
+//   console.log('PUT /api/persons/id', JSON.stringify(request.params), JSON.stringify(body))
+//   Person.updateOne(
+//     { _id : id },
+//     [{ $set: { number : body.number, name: body.name } }]
+//   )
+//     .then((x) => {
+//       console.log('put then', JSON.stringify(x))
+//     })
+//     .catch((error) => next(error))
+// })
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch((error) => next(error))
+})
+
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
